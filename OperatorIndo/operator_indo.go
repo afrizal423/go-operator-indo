@@ -34,18 +34,24 @@ func Check(nohp string) string {
 	re := strings.NewReplacer(`+62`, `0`)
 	// fmt.Println(re.Replace(nohp))
 	nohp = re.Replace(nohp)
-	var dt map[string]interface{}
+	var (
+		dt     map[string]interface{}
+		status bool = false
+	)
 	json.Unmarshal(jsonData, &dt)
 	// fmt.Println(nohp[0:4])
 	for c, _ := range dt {
 		cari := dt[c].([]interface{})
 		for _, z := range cari {
 			if nohp[0:4] == z {
-				// fmt.Println(c)
 				nohp = c
+				status = true
 			}
 		}
 
+	}
+	if status == false {
+		nohp = "Tidak ada yang cocok"
 	}
 	return nohp
 }
